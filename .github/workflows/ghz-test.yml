@@ -14,11 +14,14 @@ jobs:
           go-version: '1.x'
       - name: Install ghz
         run: go install github.com/bojand/ghz/cmd/ghz@latest
-      - name: Run ghz test
+      - name: Run ghz tests
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
           go run main.go &
           SERVER_PID=$!
           sleep 2
-          ghz --config tests/ghz_add.json
+          echo "Add latency (ms):"
+          ghz --config tests/ghz_add.json --format json | jq '.details[0].latency / 1000000'
+          echo "Divide by zero error test:"
+          ghz --config tests/ghz_divide_error.json --format json | jq '.statusCodeDistribution, .errorDistribution'
           kill $SERVER_PID
