@@ -42,14 +42,17 @@ go run main.go
 
 ## テスト
 
-[gRPC ベンチマークツール ghz](https://github.com/bojand/ghz) を利用した設定ファイル `tests/ghz_add.json` が用意されています。サーバーを起動した状態で次を実行すると `Add` メソッドが 1 回呼び出されます。
+[gRPC ベンチマークツール ghz](https://github.com/bojand/ghz) を利用した設定ファイルが用意されています。サーバーを起動した状態で次を実行すると `Add` メソッドの正常系と `Divide` メソッドの異常系をテストできます。`Add` のテストではリクエストからレスポンスまでの時間 (ms) を計測します。
 
 ```bash
 # 1つ目のターミナル
 go run main.go
 
-# 2つ目のターミナル
-ghz --config tests/ghz_add.json
+# 2つ目のターミナル: 正常系
+ghz --config tests/ghz_add.json --format json | jq '.details[0].latency / 1000000'
+
+# 2つ目のターミナル: 異常系
+ghz --config tests/ghz_divide_error.json
 ```
 
-GitHub Actions でも同じテストが自動で実行されます。
+GitHub Actions でもこれらのテストが自動で実行されます。
