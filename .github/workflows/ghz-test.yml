@@ -1,0 +1,24 @@
+name: ghz
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ghz-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.x'
+      - name: Install ghz
+        run: go install github.com/bojand/ghz/cmd/ghz@latest
+      - name: Run ghz test
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          go run main.go &
+          SERVER_PID=$!
+          sleep 2
+          ghz --config tests/ghz_add.json
+          kill $SERVER_PID
