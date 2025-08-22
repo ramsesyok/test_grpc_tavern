@@ -1,0 +1,9 @@
+{
+  "proto": "proto/calculator.proto",
+  "call": "calculator.Calculator.Add",
+  "insecure": true,
+  "total": 1,
+  "data": { "a": 7, "b": 5 },
+  "host": "localhost:50051",
+  "timeout": "5s"
+}

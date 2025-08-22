@@ -28,14 +28,6 @@ go mod tidy
 protoc --go_out=. --go-grpc_out=. proto/calculator.proto
 ```
 
-### テスト用 Python 環境
-
-Tavern による gRPC テストを実行するには Python と tavern-grpc プラグインが必要です。tavern-grpc は古い pytest に依存するため、Python 3.11 以前を推奨します。
-
-```bash
-python -m pip install tavern-grpc
-```
-
 ## ビルド
 
 ```bash
@@ -50,14 +42,14 @@ go run main.go
 
 ## テスト
 
-サーバーを起動した状態で別ターミナルからテストを実行します。
+[gRPC ベンチマークツール ghz](https://github.com/bojand/ghz) を利用した設定ファイル `tests/ghz_add.json` が用意されています。サーバーを起動した状態で次を実行すると `Add` メソッドが 1 回呼び出されます。
 
 ```bash
 # 1つ目のターミナル
 go run main.go
 
 # 2つ目のターミナル
-pytest tests/calculator.tavern.yaml
+ghz --config tests/ghz_add.json
 ```
 
-Tavern テストでは `tests/` 配下の YAML 定義に従い gRPC 経由で計算結果を検証します。
+GitHub Actions でも同じテストが自動で実行されます。
