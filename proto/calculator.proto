@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "test_grpc_tavern/proto;proto";
+
+message CalcRequest {
+  double a = 1;
+  double b = 2;
+}
+
+message CalcResponse {
+  double result = 1;
+}
+
+service Calculator {
+  rpc Add (CalcRequest) returns (CalcResponse);
+  rpc Subtract (CalcRequest) returns (CalcResponse);
+  rpc Multiply (CalcRequest) returns (CalcResponse);
+  rpc Divide (CalcRequest) returns (CalcResponse);
+}
